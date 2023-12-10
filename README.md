@@ -1,4 +1,7 @@
 ---
+runme:
+  id: 01HHA66D7C4PE9J2Y0SZ0EFMC6
+  version: v2.0
 shell: bash
 ---
 
@@ -15,23 +18,24 @@ Instrukcja przygotowania środowiska na przykładzie darmowej subskrypcji Micros
 
 ### Logowanie
 
-```sh {name=login background=false closeTerminalOnSuccess=false}
+```sh {"background":"false","closeTerminalOnSuccess":"false","id":"01HHA66D7BDQKDGYJYBRSF2050","name":"login"}
 az login
 ```
 
 ### Konfiguracja subskrypcji
 
-```sh {name=subscription background=false closeTerminalOnSuccess=false}
+```sh {"background":"false","closeTerminalOnSuccess":"false","id":"01HHA66D7BDQKDGYJYBVD5HFRW","name":"subscription"}
 az account set --subscription <id z konsoli portal.azure.com>
 ```
 
 konfigurację sprawdzamy tak:
 
-```sh {name=account-check background=false closeTerminalOnSuccess=false}
+```sh {"background":"false","closeTerminalOnSuccess":"false","id":"01HHA66D7BDQKDGYJYBWMBJPT4","name":"account-check"}
 az account show
 ```
 
 ważne pola do sprawdzenia:
+
 + "id" - identyfikator subskrypcji, czy pokrywa się z tym co widzimy w Azure Portalu
 + "isDefault" - istotne, gdybyśmy mieli kilka subskrypcji w naszej instancji AZ CLI
 + "name" - nazwa sbskrypcji, sprawdzmy jak `id`
@@ -39,7 +43,7 @@ ważne pola do sprawdzenia:
 
 ### Utworzenie ResourceGroup-y
 
-```sh {name=resource-grp background=false closeTerminalOnSuccess=false promptEnv=false}
+```sh {"background":"false","closeTerminalOnSuccess":"false","id":"01HHA66D7BDQKDGYJYBYQ2VBAN","name":"resource-grp","promptEnv":"false"}
 export RESOURCE_GRP_NAME="merito-db-$(echo $RANDOM | sha1sum | cut -c 1-8)"
 # az account list-locations -o table
 export RESOURCE_LOCATION="germanywestcentral"
@@ -49,7 +53,7 @@ az group create --name $RESOURCE_GRP_NAME --location $RESOURCE_LOCATION
 
 ### Utworzenie serwera bazy dancyh
 
-```sh {name=db-server background=false closeTerminalOnSuccess=false promptEnv=false}
+```sh {"background":"false","closeTerminalOnSuccess":"false","id":"01HHA66D7BDQKDGYJYC1P50AG0","name":"db-server","promptEnv":"false"}
 export DB_SRV_NAME="db-srv-$(echo $RANDOM | sha1sum | cut -c 1-8)"
 export MY_PUBLIC_IP=$(curl -s ifconfig.me)
 
@@ -70,13 +74,13 @@ az mysql flexible-server create \
 
 parametry połączeń dla poszczególnych języków programowania:
 
-```sh {name=db-server-connect background=false closeTerminalOnSuccess=false}
+```sh {"background":"false","closeTerminalOnSuccess":"false","id":"01HHA66D7BDQKDGYJYC36MFWBW","name":"db-server-connect"}
 az mysql flexible-server show-connection-string --server-name $DB_SRV_NAME --admin-user=adminuser
 ```
 
 aby połączyć się z bazą danych potrebny będzie również certyfikat SSL (chyba, że wyłączymy SSLa, ale nie jest to zalecane):
 
-```sh {name=ssl-cert-get background=false closeTerminalOnSuccess=false}
+```sh {"background":"false","closeTerminalOnSuccess":"false","id":"01HHA66D7BDQKDGYJYC5PCMMKG","name":"ssl-cert-get"}
 curl -s -o cacert.pem https://dl.cacerts.digicert.com/DigiCertGlobalRootCA.crt.pem
 ```
 
@@ -88,8 +92,7 @@ Operacja wykoywana z [GUI](https://portal.azure.com/) i polegająca na dodaniu d
 
 [MyCLI](https://www.mycli.net/) commandline'owy interfejs do bazy danych - nie tylko MySQL. MyCLI zapewnia lepszy User eXperience niż podstawowe narzędzia konsolowe MySQLa, dzięki np autouzupełnianiu i przeszukiwaniu historii poleceń.
 
-```sh {name=mycli-install background=false closeTerminalOnSuccess=false excludeFromRunAll=true}
-# poniższe polecenia zadziałają w systemie Windows
+```sh {"background":"false","closeTerminalOnSuccess":"false","excludeFromRunAll":"true","id":"01HHA66D7C4PE9J2Y0SRYP81T9","name":"mycli-install"}
 python -m venv venv
 # cd venv\Scripts   # windows
 # activate          # windows
@@ -100,7 +103,7 @@ mycli --help
 
 jak zalogować się do bazy:
 
-```sh {name=mycli-login background=false closeTerminalOnSuccess=false excludeFromRunAll=true}
+```sh {"background":"false","closeTerminalOnSuccess":"false","excludeFromRunAll":"true","id":"01HHA66D7C4PE9J2Y0SV3S8PB5","name":"mycli-login"}
 mycli --host=${DB_SRV_NAME}.mysql.database.azure.com --ssl-ca=cacert.pem --user=adminuser
 ```
 
@@ -108,13 +111,13 @@ mycli --host=${DB_SRV_NAME}.mysql.database.azure.com --ssl-ca=cacert.pem --user=
 
 Z racji na koszty utrzymania zasobów chmurowych zalecane jest wyłączanie ich po zakończonej pracy:
 
-```sh {name=db-server-stop background=false closeTerminalOnSuccess=false excludeFromRunAll=true}
+```sh {"background":"false","closeTerminalOnSuccess":"false","excludeFromRunAll":"true","id":"01HHA66D7C4PE9J2Y0SX4D5K57","name":"db-server-stop"}
 az mysql flexible-server stop --name $DB_SRV_NAME
 ```
 
 lub wręcz ich kasowanie:
 
-```sh {name=db-server-delete background=false closeTerminalOnSuccess=false excludeFromRunAll=true}
+```sh {"background":"false","closeTerminalOnSuccess":"false","excludeFromRunAll":"true","id":"01HHA66D7C4PE9J2Y0SXV3RWVT","name":"db-server-delete"}
 az mysql flexible-server delete --resource-group $RESOURCE_GRP_NAME --name $DB_SRV_NAME
 ```
 
