@@ -143,7 +143,7 @@ CREATE TABLE customers (
   rbe varchar(255) 	NOT NULL DEFAULT '',
   icn varchar(255) 	NOT NULL DEFAULT '',
   info text 		NOT NULL,
-  notes text 		NOT NULL DEFAULT '',
+  notes text    NOT NULL,
   creationdate int(11) 	NOT NULL DEFAULT '0',
   moddate int(11) 	NOT NULL DEFAULT '0',
   creatorid int(11) 	NOT NULL DEFAULT '0',
@@ -230,7 +230,7 @@ CREATE TABLE cash (
   value decimal(9,2) NOT NULL DEFAULT '0.00',
   taxid int(11) NOT NULL DEFAULT '0',
   customerid int(11) NOT NULL DEFAULT '0',
-  comment text NOT NULL DEFAULT '',
+  comment text NOT NULL,
   docid int(11) NOT NULL DEFAULT '0',
   itemid smallint NOT NULL DEFAULT '0',
   importid int(11) DEFAULT NULL,
@@ -279,7 +279,7 @@ CREATE TABLE invoicecontents (
   prodid varchar(255) NOT NULL DEFAULT '',
   content varchar(16) NOT NULL DEFAULT '',
   count decimal(9,2) NOT NULL DEFAULT '0.00',
-  description text NOT NULL DEFAULT '',
+  description text NOT NULL,
   tariffid int(11) NOT NULL DEFAULT '0',
   INDEX docid (docid)
 ) ENGINE=InnoDB;
@@ -293,7 +293,7 @@ CREATE TABLE debitnotecontents (
 	docid int(11) NOT NULL DEFAULT '0',
 	itemid smallint NOT NULL DEFAULT '0',
         value decimal(9,2) NOT NULL DEFAULT '0.00',
-	description text NOT NULL DEFAULT '',
+	description text NOT NULL,
 	PRIMARY KEY (id),
 	UNIQUE KEY docid (docid, itemid)
 ) ENGINE=InnoDB;
@@ -337,15 +337,15 @@ CREATE TABLE documents (
 # Structure of table documentcontents
 #
 CREATE TABLE documentcontents (
-        docid int(11) DEFAULT '0' NOT NULL,
-	title text DEFAULT '' NOT NULL,
-        fromdate int(11) DEFAULT '0' NOT NULL,
+  docid int(11) DEFAULT '0' NOT NULL,
+	title text NOT NULL,
+  fromdate int(11) DEFAULT '0' NOT NULL,
 	todate int(11) DEFAULT '0' NOT NULL,
-        filename varchar(255) DEFAULT '' NOT NULL,
+  filename varchar(255) DEFAULT '' NOT NULL,
 	contenttype varchar(255) DEFAULT '' NOT NULL,
-        md5sum varchar(32) DEFAULT '' NOT NULL,
-	description text DEFAULT '' NOT NULL,
-        INDEX md5sum (md5sum),
+  md5sum varchar(32) DEFAULT '' NOT NULL,
+	description text NOT NULL,
+  INDEX md5sum (md5sum),
 	INDEX fromdate (fromdate),
 	INDEX todate (todate),
 	UNIQUE KEY docid (docid)
@@ -359,7 +359,7 @@ CREATE TABLE receiptcontents (
 	docid int(11) 		NOT NULL DEFAULT '0',
 	itemid 			TINYINT NOT NULL DEFAULT '0',
 	value decimal(9,2) 	NOT NULL DEFAULT '0',
-	description text 	NOT NULL DEFAULT '',
+	description text 	NOT NULL,
 	regid int(11)		NOT NULL DEFAULT '0',
 	INDEX docid (docid),
 	INDEX regid (regid)
@@ -423,7 +423,7 @@ CREATE TABLE netdevices (
   id 		int(11) 	NOT NULL auto_increment,
   name 		varchar(32) 	NOT NULL DEFAULT '',
   location 	varchar(255) 	NOT NULL DEFAULT '',
-  description 	text 		NOT NULL DEFAULT '',
+  description 	text 		NOT NULL,
   producer 	varchar(64) 	NOT NULL DEFAULT '',
   model 	varchar(32) 	NOT NULL DEFAULT '',
   serialnumber 	varchar(32) 	NOT NULL DEFAULT '',
@@ -474,7 +474,7 @@ CREATE TABLE networks (
   dhcpstart varchar(16) NOT NULL DEFAULT '',
   dhcpend varchar(16) NOT NULL DEFAULT '',
   disabled tinyint(1) NOT NULL DEFAULT '0',
-  notes text NOT NULL DEFAULT '',
+  notes text NOT NULL,
   PRIMARY KEY  (id),
   UNIQUE KEY name (name),
   UNIQUE KEY address (address)
@@ -503,7 +503,7 @@ CREATE TABLE nodes (
   chkmac tinyint(1) NOT NULL DEFAULT '1',
   halfduplex tinyint(1) NOT NULL DEFAULT '0',
   lastonline int(11) NOT NULL DEFAULT '0',
-  info text NOT NULL DEFAULT '',
+  info text NOT NULL,
   location_address varchar(255) DEFAULT NULL,
   location_zip varchar(10) 	    DEFAULT NULL,
   location_city varchar(32) 	DEFAULT NULL,
@@ -537,7 +537,7 @@ CREATE TABLE nodegroups (
         id              int(11)         NOT NULL auto_increment,
 	name            varchar(255)    NOT NULL DEFAULT '',
 	prio		int(11)		NOT NULL DEFAULT '0',
-	description     text            NOT NULL DEFAULT '',
+	description     text            NOT NULL,
 	PRIMARY KEY (id),
 	UNIQUE KEY name (name)
 ) ENGINE=InnoDB;
@@ -610,9 +610,9 @@ CREATE TABLE rtmessages (
   subject varchar(255) NOT NULL DEFAULT '',
   messageid varchar(255) NOT NULL DEFAULT '',
   inreplyto int(11) NOT NULL DEFAULT '0',
-  replyto text NOT NULL DEFAULT '',
-  headers text NOT NULL DEFAULT '',
-  body mediumtext NOT NULL DEFAULT '',
+  replyto text NOT NULL,
+  headers text NOT NULL,
+  body mediumtext NOT NULL,
   createtime int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY  (id),
   INDEX ticketid (ticketid)
@@ -626,7 +626,7 @@ CREATE TABLE rtnotes (
 	id int(11) 	     NOT NULL auto_increment,
 	ticketid int(11)     NOT NULL,
     userid int(11)       NOT NULL,
-	body text            NOT NULL DEFAULT '',
+	body text            NOT NULL,
 	createtime int(11)   NOT NULL DEFAULT '0',
 	PRIMARY KEY (id),
 	INDEX ticketid (ticketid),
@@ -641,7 +641,7 @@ CREATE TABLE rtqueues (
   id int(11) NOT NULL auto_increment,
   name varchar(255) NOT NULL DEFAULT '',
   email varchar(255) NOT NULL DEFAULT '',
-  description text NOT NULL DEFAULT '',
+  description text NOT NULL,
   PRIMARY KEY  (id),
   UNIQUE KEY name (name)
 ) ENGINE=InnoDB;
@@ -797,7 +797,7 @@ CREATE TABLE promotionassignments (
 CREATE TABLE liabilities (
     id int(11)              NOT NULL auto_increment,
     value decimal(9,2)      NOT NULL DEFAULT '0',
-    name text               NOT NULL DEFAULT '',
+    name text               NOT NULL,
     taxid int(11)           NOT NULL DEFAULT '0',
     prodid varchar(255)     NOT NULL DEFAULT '',
     PRIMARY KEY (id)
@@ -854,7 +854,7 @@ CREATE TABLE passwd (
     createtime int(11) NOT NULL DEFAULT 0,
     mail_forward varchar(255) NOT NULL DEFAULT '',
     mail_bcc varchar(255) NOT NULL DEFAULT '',
-    description text NOT NULL DEFAULT '',
+    description text NOT NULL,
     PRIMARY KEY (id),
     UNIQUE KEY (login, domainid),
     INDEX ownerid (ownerid)
@@ -868,7 +868,7 @@ CREATE TABLE domains (
     id int(11) NOT NULL auto_increment,
     ownerid int(11) NOT NULL DEFAULT 0,
     name varchar(255) NOT NULL DEFAULT '',
-    description text NOT NULL DEFAULT '',
+    description text NOT NULL,
     master VARCHAR(128) DEFAULT NULL,
     last_check INT(11) DEFAULT NULL,
     type VARCHAR(6) NOT NULL,
@@ -912,8 +912,8 @@ CREATE TABLE uiconfig (
     id int(11) NOT NULL auto_increment,
     section varchar(64) NOT NULL DEFAULT '',
     var varchar(64) NOT NULL DEFAULT '',
-    value text NOT NULL DEFAULT '',
-    description text NOT NULL DEFAULT '',
+    value text NOT NULL,
+    description text NOT NULL,
     disabled tinyint(1) NOT NULL DEFAULT '0',
     PRIMARY KEY (id),
     UNIQUE KEY var (section, var)
@@ -926,8 +926,8 @@ CREATE TABLE uiconfig (
 CREATE TABLE events (
     id int(11) NOT NULL auto_increment,
     title varchar(255) NOT NULL DEFAULT '',
-    description text NOT NULL DEFAULT '',
-    note text NOT NULL DEFAULT '',
+    description text NOT NULL,
+    note text NOT NULL,
     date int(11) NOT NULL DEFAULT '0',
     begintime smallint(4) NOT NULL DEFAULT '0',
     endtime smallint(4) NOT NULL DEFAULT '0',
@@ -1023,7 +1023,7 @@ CREATE TABLE cashimport (
 CREATE TABLE hosts (
     id int(11) NOT NULL auto_increment,
     name varchar(255) DEFAULT '' NOT NULL,
-    description text DEFAULT '' NOT NULL,
+    description text NOT NULL,
     lastreload int(11) DEFAULT '0' NOT NULL,
     reload tinyint(1) DEFAULT '0' NOT NULL,
     PRIMARY KEY (id),
@@ -1041,7 +1041,7 @@ CREATE TABLE daemoninstances (
     module varchar(255) 	DEFAULT '' NOT NULL,
     crontab varchar(255) 	DEFAULT '' NOT NULL,
     priority int(11) 		DEFAULT '0' NOT NULL,
-    description text 		DEFAULT '' NOT NULL,
+    description text 		NOT NULL,
     disabled tinyint(1) 	DEFAULT '0' NOT NULL,
     PRIMARY KEY (id)
 ) ENGINE=InnoDB;
@@ -1054,8 +1054,8 @@ CREATE TABLE daemonconfig (
     id int(11) 		NOT NULL auto_increment,
     instanceid int(11) 	DEFAULT '0' NOT NULL,
     var varchar(64) 	DEFAULT '' NOT NULL,
-    value text 		DEFAULT '' NOT NULL,
-    description text 	DEFAULT '' NOT NULL,
+    value text 	 NOT NULL,
+    description text 	NOT NULL,
     disabled tinyint(1) DEFAULT '0' NOT NULL,
     PRIMARY KEY (id),
     UNIQUE KEY instanceid (instanceid, var)
@@ -1094,7 +1094,7 @@ CREATE TABLE cashrights (
 CREATE TABLE cashregs (
     id int(11)              NOT NULL auto_increment,
     name varchar(255)       DEFAULT '' NOT NULL,
-    description text        DEFAULT '' NOT NULL,
+    description text        NOT NULL,
     in_numberplanid int(11) DEFAULT '0' NOT NULL,
     out_numberplanid int(11) DEFAULT '0' NOT NULL,
     disabled tinyint(1)     DEFAULT '0' NOT NULL,
@@ -1113,7 +1113,7 @@ CREATE TABLE cashreglog (
     time int(11)		DEFAULT '0' NOT NULL,
     value decimal(9,2)      	DEFAULT '0' NOT NULL,
     snapshot decimal(9,2)      	DEFAULT '0' NOT NULL,
-    description text		DEFAULT '' NOT NULL,
+    description text		NOT NULL,
     PRIMARY KEY (id),
     UNIQUE KEY regid (regid, time)
 ) ENGINE=InnoDB;
@@ -1155,7 +1155,7 @@ CREATE TABLE customercontacts (
 CREATE TABLE states (
     	id 		int(11) 	NOT NULL auto_increment,
 	name 		varchar(255) 	NOT NULL DEFAULT '',
-	description 	text 		NOT NULL DEFAULT '',
+	description 	text 		NOT NULL,
 	PRIMARY KEY (id),
 	UNIQUE KEY name (name)
 ) ENGINE=InnoDB;
@@ -1191,7 +1191,7 @@ CREATE TABLE zipcodes (
 CREATE TABLE divisions (
     	id 		int(11) 	NOT NULL auto_increment,
 	shortname       varchar(255) 	NOT NULL DEFAULT '',
-        name        	text    	NOT NULL DEFAULT '',
+        name        	text    	NOT NULL,
 	address         varchar(255) 	NOT NULL DEFAULT '',
 	city            varchar(255) 	NOT NULL DEFAULT '',
 	zip             varchar(255) 	NOT NULL DEFAULT '',
@@ -1199,13 +1199,13 @@ CREATE TABLE divisions (
 	ten		varchar(16)	NOT NULL DEFAULT '',
 	regon		varchar(255)	NOT NULL DEFAULT '',
 	account         varchar(48) 	NOT NULL DEFAULT '',
-	inv_header      text    	NOT NULL DEFAULT '',
-	inv_footer      text    	NOT NULL DEFAULT '',
-	inv_author      text    	NOT NULL DEFAULT '',
-	inv_cplace      text    	NOT NULL DEFAULT '',
+	inv_header      text    	NOT NULL,
+	inv_footer      text    	NOT NULL,
+	inv_author      text    	NOT NULL,
+	inv_cplace      text    	NOT NULL,
 	inv_paytime 	tinyint         DEFAULT NULL,
 	inv_paytype 	smallint    DEFAULT NULL,
-	description     text    	NOT NULL DEFAULT '',
+	description     text    	NOT NULL,
 	status 		tinyint(1) 	NOT NULL DEFAULT 0,
 	PRIMARY KEY (id),
 	UNIQUE KEY shortname (shortname)
@@ -1249,7 +1249,7 @@ CREATE TABLE voipaccounts (
 CREATE TABLE messages (
         id 	int(11) 	NOT NULL auto_increment,
         subject varchar(255)	DEFAULT '' NOT NULL,
-	body 	text		DEFAULT '' NOT NULL,
+	body 	text		 NOT NULL,
 	cdate 	int(11)		DEFAULT '0' NOT NULL,
 	type 	smallint	DEFAULT '0' NOT NULL,
 	userid 	int(11)		DEFAULT '0' NOT NULL,
@@ -1379,7 +1379,7 @@ CREATE TABLE up_help (
         id int(11) NOT NULL auto_increment,
 	reference int(11) NOT NULL DEFAULT '0',
 	title varchar(128) NOT NULL DEFAULT '',
-	body text NOT NULL DEFAULT '',
+	body text NOT NULL,
 	PRIMARY KEY id (id)
 ) ENGINE=InnoDB;
 
@@ -1395,18 +1395,18 @@ CREATE TABLE up_info_changes (
 	PRIMARY KEY (id)
 ) ENGINE=InnoDB;
 
-INSERT INTO uiconfig (section, var)
-	VALUES ('userpanel', 'data_consent_text');
+INSERT INTO uiconfig (section, var, value, description)
+	VALUES ('userpanel', 'data_consent_text', '', '');
 INSERT INTO uiconfig (section, var, value, description, disabled) 
 	VALUES ('userpanel', 'disable_transferform', '0', '', 0);
 INSERT INTO uiconfig (section, var, value, description, disabled)
 	VALUES ('userpanel', 'disable_invoices', '0', '', 0);
 INSERT INTO uiconfig (section, var, value, description, disabled)
 	VALUES ('userpanel', 'invoice_duplicate', '0', '', 0);
-INSERT INTO uiconfig (section, var, value)
-	VALUES ('userpanel', 'show_tariffname', '1');
-INSERT INTO uiconfig (section, var, value)
-	VALUES ('userpanel', 'show_speeds', '1');
+INSERT INTO uiconfig (section, var, value, description)
+	VALUES ('userpanel', 'show_tariffname', '1', '');
+INSERT INTO uiconfig (section, var, value, description)
+	VALUES ('userpanel', 'show_speeds', '1', '');
 INSERT INTO uiconfig (section, var, value, description, disabled)
 	VALUES ('userpanel', 'default_queue', '1', '', 0);
 INSERT INTO uiconfig (section, var, value, description, disabled)
