@@ -1,7 +1,7 @@
 ---
 runme:
   id: 01HHA66D7C4PE9J2Y0SZ0EFMC6
-  version: v2.0
+  version: v3
 shell: bash
 ---
 
