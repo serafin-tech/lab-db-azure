@@ -30,5 +30,5 @@ az mysql flexible-server create \
 curl -s -o cacert.pem https://dl.cacerts.digicert.com/DigiCertGlobalRootCA.crt.pem
 
 curl -s https://raw.githubusercontent.com/serafin-tech/lab-db-azure/main/lab_db_v3.sql | \
-    mysql --host=db-srv-eaccc7d1.mysql.database.azure.com \
+    mysql --host="${DB_SRV_NAME}.mysql.database.azure.com" \
     --user=adminuser --password=Som3Passw0rd
