@@ -16,13 +16,23 @@ Instrukcja przygotowania środowiska na przykładzie darmowej subskrypcji Micros
 
 ## Kroki
 
+*wszystkie kroki można uruchomić w CloudShell przy pomocy poniższego polecenia (przez użycie skryptu powłoki):*
+
+```sh {"background":"false","closeTerminalOnSuccess":"false","id":"01HZ7YPF17FA6JS6NWRSD27GZW","name":"full-setup-shell"}
+curl -s https://raw.githubusercontent.com/serafin-tech/lab-db-azure/main/skrypt.sh | bash -x
+```
+
 ### Logowanie
+
+*krok pomijamy w przypadku użycia CloudShella*
 
 ```sh {"background":"false","closeTerminalOnSuccess":"false","id":"01HHA66D7BDQKDGYJYBRSF2050","name":"login"}
 az login
 ```
 
 ### Konfiguracja subskrypcji
+
+*krok pomijamy w przypadku użycia CloudShella*
 
 ```sh {"background":"false","closeTerminalOnSuccess":"false","id":"01HHA66D7BDQKDGYJYBVD5HFRW","name":"subscription"}
 az account set --subscription <id z konsoli portal.azure.com>
@@ -48,6 +58,9 @@ export RESOURCE_GRP_NAME="merito-db-$(echo $RANDOM | sha1sum | cut -c 1-8)"
 # az account list-locations -o table
 export RESOURCE_LOCATION="germanywestcentral"
 
+echo "export RESOURCE_GRP_NAME=${RESOURCE_GRP_NAME}" | tee ~/config.sh
+echo "export RESOURCE_LOCATION=${RESOURCE_LOCATION}" | tee -a ~/config.sh
+
 az group create --name $RESOURCE_GRP_NAME --location $RESOURCE_LOCATION
 ```
 
@@ -56,6 +69,8 @@ az group create --name $RESOURCE_GRP_NAME --location $RESOURCE_LOCATION
 ```sh {"background":"false","closeTerminalOnSuccess":"false","id":"01HHA66D7BDQKDGYJYC1P50AG0","name":"db-server","promptEnv":"false"}
 export DB_SRV_NAME="db-srv-$(echo $RANDOM | sha1sum | cut -c 1-8)"
 export MY_PUBLIC_IP=$(curl -s ifconfig.me)
+
+echo "export DB_SRV_NAME=${DB_SRV_NAME}" | tee -a ~/config.sh
 
 az mysql flexible-server create \
     --database-name lab-db \
@@ -78,10 +93,20 @@ parametry połączeń dla poszczególnych języków programowania:
 az mysql flexible-server show-connection-string --server-name $DB_SRV_NAME --admin-user=adminuser
 ```
 
-aby połączyć się z bazą danych potrebny będzie również certyfikat SSL (chyba, że wyłączymy SSLa, ale nie jest to zalecane):
+aby połączyć się z bazą danych potrzebny będzie również certyfikat SSL (chyba, że wyłączymy SSLa, ale nie jest to zalecane):
 
 ```sh {"background":"false","closeTerminalOnSuccess":"false","id":"01HHA66D7BDQKDGYJYC5PCMMKG","name":"ssl-cert-get"}
 curl -s -o cacert.pem https://dl.cacerts.digicert.com/DigiCertGlobalRootCA.crt.pem
+```
+
+### Utworzenie bazy danych do ćwiczeń
+
+poniższe polecenie przygotowuje bazę danych do ćwiczeń:
+
+```sh {"background":"false","closeTerminalOnSuccess":"false","id":"01HZ7YPF17FA6JS6NWRSTGTGET","name":"db-prep"}
+curl -s https://raw.githubusercontent.com/serafin-tech/lab-db-azure/main/lab_db_v3.sql | \
+    mysql --host=db-srv-eaccc7d1.mysql.database.azure.com \
+    --user=adminuser --password=Som3Passw0rd
 ```
 
 ### Konfiguracja dostępu sieciowego
