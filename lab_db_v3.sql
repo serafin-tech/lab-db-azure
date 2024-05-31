@@ -1,7 +1,7 @@
 DROP DATABASE IF EXISTS `lab_db_v3`;
 CREATE DATABASE `lab_db_v3` DEFAULT CHARACTER SET utf8;
 
-USE lab_db_v3;
+USE lab-db-v3;
 
 DROP TABLE IF EXISTS `stanowiska`;
 CREATE TABLE `stanowiska` (
