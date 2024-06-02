@@ -1,19 +1,20 @@
 #!/usr/bin/env bash
 
-set -ex
+set -eu
+set -o pipefail
+
+function finish {
+  echo -e "${RED}finished with some issue.${NOCOLOR}"
+}
+
+trap finish SIGINT SIGABRT SIGTERM
 
 RESOURCE_GRP_NAME="merito-db-$(echo $RANDOM | sha1sum | cut -c 1-8)"
 RESOURCE_LOCATION="germanywestcentral"
 DB_SRV_NAME="db-srv-$(echo $RANDOM | sha1sum | cut -c 1-8)"
 MY_PUBLIC_IP=$(curl -s ifconfig.me)
 
-echo "export RESOURCE_GRP_NAME=${RESOURCE_GRP_NAME}" | tee ~/config.sh
-echo "export RESOURCE_LOCATION=${RESOURCE_LOCATION}" | tee -a ~/config.sh
-echo "export DB_SRV_NAME=${DB_SRV_NAME}" | tee -a ~/config.sh
-
-
 az group create --name $RESOURCE_GRP_NAME --location $RESOURCE_LOCATION
-
 
 az mysql flexible-server create \
     --database-name lab-db \
@@ -29,6 +30,11 @@ az mysql flexible-server create \
 
 curl -s -o cacert.pem https://dl.cacerts.digicert.com/DigiCertGlobalRootCA.crt.pem
 
-curl -s https://raw.githubusercontent.com/serafin-tech/lab-db-azure/main/lab_db_v3.sql | \
-    mysql --host="${DB_SRV_NAME}.mysql.database.azure.com" \
-    --user=adminuser --password=Som3Passw0rd
+echo "export RESOURCE_GRP_NAME=${RESOURCE_GRP_NAME}" | tee ~/config.sh
+echo "export RESOURCE_LOCATION=${RESOURCE_LOCATION}" | tee -a ~/config.sh
+echo "export DB_SRV_NAME=${DB_SRV_NAME}" | tee -a ~/config.sh
+
+echo -e "[mysql]\nuser=adminuser\npassword=Som3Passw0rd\nhost=${DB_SRV_NAME}.mysql.database.azure.com" > ~/.my.cnf && chmod 600 ~/.my.cnf
+
+curl -s https://raw.githubusercontent.com/serafin-tech/lab-db-azure/main/lab_db_v3.sql | mysql
+
