@@ -5,7 +5,7 @@ runme:
 shell: bash
 ---
 
-# Labolatorium baz danych
+# Laboratorium baz danych
 
 Instrukcja przygotowania środowiska na przykładzie darmowej subskrypcji Microsoft Azure.
 

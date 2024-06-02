@@ -36,5 +36,12 @@ echo "export DB_SRV_NAME=${DB_SRV_NAME}" | tee -a ~/config.sh
 
 echo -e "[mysql]\nuser=adminuser\npassword=Som3Passw0rd\nhost=${DB_SRV_NAME}.mysql.database.azure.com" > ~/.my.cnf && chmod 600 ~/.my.cnf
 
+cat > .env <<EOT
+DB_HOST=${DB_SRV_NAME}.mysql.database.azure.com
+DB_USER=adminuser
+DB_PASS=Som3Passw0rd
+DB_NAME=books-db
+EOT
+
 curl -s https://raw.githubusercontent.com/serafin-tech/lab-db-azure/main/lab_db_v3.sql | mysql
 
