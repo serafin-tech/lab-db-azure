@@ -146,6 +146,14 @@ lub wręcz ich kasowanie:
 az mysql flexible-server delete --resource-group $RESOURCE_GRP_NAME --name $DB_SRV_NAME
 ```
 
+### Kasowanie resource grupy
+
+W momencie, gdy chcemy mieć pewność, ze wszystkie zasoby zostały usunięte najprościej jest skasować całą resource grupę:
+
+```sh
+az group delete --resource-group=$RESOURCE_GRP_NAME
+```
+
 ## Referencje
 
 - [Demo: Getting Started | Azure Database for MySQL - Beginners Series](https://learn.microsoft.com/en-us/shows/azure-database-for-mysql-beginners-series/demo-getting-started)
