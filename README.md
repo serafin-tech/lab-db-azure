@@ -80,7 +80,7 @@ az mysql flexible-server create \
     --resource-group $RESOURCE_GRP_NAME \
     --sku-name Standard_B1ms \
     --storage-auto-grow Disabled \
-    --version 8.0.21 \
+    --version 8.0.37 \
     --admin-user adminuser \
     --admin-password Som3Passw0rd
 ```
