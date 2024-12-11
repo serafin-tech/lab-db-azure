@@ -106,7 +106,7 @@ poniższe polecenie przygotowuje bazę danych do ćwiczeń:
 ```sh {"background":"false","closeTerminalOnSuccess":"false","id":"01HZ7YPF17FA6JS6NWRSTGTGET","name":"db-prep"}
 curl -s https://raw.githubusercontent.com/serafin-tech/lab-db-azure/main/lab_db_v3.sql | \
     mysql --host=${DB_SRV_NAME}.mysql.database.azure.com \
-    --user=adminuser --password=Som3Passw0rd
+    --user=adminuser --password=Som3Passw0rd --ssl-ca=cacert.pem
 ```
 
 ### Konfiguracja dostępu sieciowego
