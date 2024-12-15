@@ -10,7 +10,7 @@ function finish {
 trap finish SIGINT SIGABRT SIGTERM
 
 RESOURCE_GRP_NAME="merito-db-$(echo $RANDOM | sha1sum | cut -c 1-8)"
-RESOURCE_LOCATION="germanywestcentral"
+RESOURCE_LOCATION="polandcentral"
 DB_SRV_NAME="db-srv-$(echo $RANDOM | sha1sum | cut -c 1-8)"
 MY_PUBLIC_IP=$(curl -s ifconfig.me)
 
@@ -44,4 +44,3 @@ DB_NAME=books-db
 EOT
 
 curl -s https://raw.githubusercontent.com/serafin-tech/lab-db-azure/main/lab_db_v3.sql | mysql
-
