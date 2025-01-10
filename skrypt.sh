@@ -47,6 +47,8 @@ DB_HOST=${DB_SRV_NAME}.mysql.database.azure.com
 DB_USER=adminuser
 DB_PASS=Som3Passw0rd
 DB_NAME=books-db
+RESOURCE_GRP_NAME=${RESOURCE_GRP_NAME}
+DB_SRV_NAME=${DB_SRV_NAME}
 EOT
 
 chmod 600 ~/.my.cnf ~/.env
