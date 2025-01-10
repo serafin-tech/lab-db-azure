@@ -13,7 +13,7 @@ Instrukcja przygotowania środowiska na przykładzie darmowej subskrypcji Micros
 *wszystkie kroki można uruchomić w CloudShell przy pomocy poniższego polecenia (przez użycie skryptu powłoki):*
 
 ```sh
-curl -s https://raw.githubusercontent.com/serafin-tech/lab-db-azure/main/skrypt.sh | bash -x
+curl -s https://raw.githubusercontent.com/serafin-tech/lab-db-azure/main/skrypt.sh | bash
 ```
 
 ### Logowanie + sunskrypcja 
