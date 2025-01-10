@@ -75,6 +75,6 @@ echo_green "====================="
 
 curl -s https://raw.githubusercontent.com/serafin-tech/lab-db-azure/main/lab_db_v3.sql | mysql --ssl-ca=cacert.pem
 
-echo_green "==============================================================================="
-echo_green "=== Po zakończeniu działania skryptu ręcnie wykonaj polecenie 'source .env' ==="
-echo_green "==============================================================================="
+echo_green "================================================================================"
+echo_green "=== Po zakończeniu działania skryptu ręcznie wykonaj polecenie 'source .env' ==="
+echo_green "================================================================================"
