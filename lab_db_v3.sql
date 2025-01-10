@@ -67,16 +67,16 @@ CREATE TABLE `pracownicy` (
 LOCK TABLES `pracownicy` WRITE;
 ALTER TABLE `pracownicy` DISABLE KEYS;
 INSERT INTO `pracownicy` VALUES
-(100,'Jan','Kowalski',1,100,'2000-01-01',7,25000.00),
-(101,'Marek','Nowak',2,100,'2000-01-01',4,17000.00),
-(102,'Marek','Marecki',2,100,'2000-01-01',5,19000.00),
-(103,'Aleksandra','Olska',7,100,'2010-01-01',7,3500.00),
-(104,'Anna','Nowak',6,100,'2001-01-01',8,10000.00),
-(105,'Jan','Jablonski',3,101,'2001-01-01',3,9000.00),
-(106,'Zdzislaw','Testowy',3,101,'2001-01-01',4,12000.00),
-(107,'Michal','Michalski',3,102,'2008-01-01',5,15000.00),
-(108,'Karol','Karolewski',3,102,'2010-01-01',6,13000.00),
-(109,'Krzysztof','Kowalski',6,101,'2012-01-01',4,6000.00);
+(100,'Jan','Kowalski',1,100,'2000-01-01',7,35000.00),
+(101,'Marek','Nowak',2,100,'2000-01-01',4,27000.00),
+(102,'Marek','Marecki',2,100,'2000-01-01',5,24000.00),
+(103,'Aleksandra','Olska',7,100,'2010-01-01',7,4500.00),
+(104,'Anna','Nowak',6,100,'2001-01-01',8,15000.00),
+(105,'Jan','Jablonski',3,101,'2001-01-01',3,12000.00),
+(106,'Zdzislaw','Testowy',3,101,'2001-01-01',4,14000.00),
+(107,'Michal','Michalski',3,102,'2008-01-01',5,19000.00),
+(108,'Karol','Karolewski',3,102,'2010-01-01',6,16000.00),
+(109,'Krzysztof','Kowalski',6,101,'2012-01-01',4,9000.00);
 ALTER TABLE `pracownicy` ENABLE KEYS;
 UNLOCK TABLES;
 
@@ -91,15 +91,20 @@ CREATE TABLE `kontraktorzy` (
   PRIMARY KEY (`idkontr`),
   KEY `fk_kontraktorzy_2` (`przelozony`),
   CONSTRAINT `fk_kontraktorzy_2` FOREIGN KEY (`przelozony`) REFERENCES `pracownicy` (`idprac`) ON DELETE NO ACTION
-) AUTO_INCREMENT=202 DEFAULT CHARSET=utf8;
+) AUTO_INCREMENT=207 DEFAULT CHARSET=utf8;
 
 LOCK TABLES `kontraktorzy` WRITE;
 ALTER TABLE `kontraktorzy` DISABLE KEYS;
 INSERT INTO `kontraktorzy` VALUES
-(200,'Gwidon','Gwizdowski',107,'2020-01-01',200.00),
-(201,'Stefan','Stefanski',107,'2021-01-01',170.00);
+(200,'Gwidon','Gwizdowski',107,'2020-01-01',160.00),
+(201,'Stefan','Stefanski',107,'2021-01-01',170.00),
+(202,'Gertruda','Dróżdż',107,'2021-01-01',180.00),
+(203,'Krystyna','Bas',107,'2021-01-01',190.00),
+(204,'Weronika','Filus',107,'2021-01-01',200.00),
+(205,'Maja','Lubera',107,'2021-01-01',210.00),
+(206,'Honorata','Kowalkowska',107,'2021-01-01',220.00);
 ALTER TABLE `kontraktorzy` ENABLE KEYS;
 UNLOCK TABLES;
 
-alter table `pracownicy` add column `plec` enum('K','M');
-alter table `kontraktorzy` add column `plec` enum('K','M');
+-- alter table `pracownicy` add column `plec` enum('K','M');
+-- alter table `kontraktorzy` add column `plec` enum('K','M');

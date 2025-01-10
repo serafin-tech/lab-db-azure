@@ -34,13 +34,21 @@ echo "export RESOURCE_GRP_NAME=${RESOURCE_GRP_NAME}" | tee ~/config.sh
 echo "export RESOURCE_LOCATION=${RESOURCE_LOCATION}" | tee -a ~/config.sh
 echo "export DB_SRV_NAME=${DB_SRV_NAME}" | tee -a ~/config.sh
 
-echo -e "[mysql]\nuser=adminuser\npassword=Som3Passw0rd\nhost=${DB_SRV_NAME}.mysql.database.azure.com" > ~/.my.cnf && chmod 600 ~/.my.cnf
+cat > ~/.my.cnf <<EOT
+[mysql]
+user=adminuser
+password=Som3Passw0rd
+host=${DB_SRV_NAME}.mysql.database.azure.com
+ssl-ca=cacert.pem
+EOT
 
-cat > .env <<EOT
+cat > ~/.env <<EOT
 DB_HOST=${DB_SRV_NAME}.mysql.database.azure.com
 DB_USER=adminuser
 DB_PASS=Som3Passw0rd
 DB_NAME=books-db
 EOT
 
-curl -s https://raw.githubusercontent.com/serafin-tech/lab-db-azure/main/lab_db_v3.sql | mysql
+chmod 600 ~/.my.cnf ~/.env
+
+curl -s https://raw.githubusercontent.com/serafin-tech/lab-db-azure/main/lab_db_v3.sql | mysql --ssl-ca=cacert.pem
