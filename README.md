@@ -22,9 +22,10 @@ curl -s -o cacert.pem https://dl.cacerts.digicert.com/DigiCertGlobalRootCA.crt.p
 
 ### Użytkownik i hasło
 
-|---|---|
-| Użytkownik | `adminuser` |
-| Hasło | `Som3Passw0rd` |
+|            |                |
+|------------|----------------|
+| Użytkownik | `adminuser`    |
+| Hasło      | `Som3Passw0rd` |
 
 ### Konfiguracja dostępu sieciowego
 
