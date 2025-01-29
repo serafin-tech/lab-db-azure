@@ -8,70 +8,28 @@ Instrukcja przygotowania środowiska na przykładzie darmowej subskrypcji Micros
 2. włączony [Persistent Shell Storage](https://learn.microsoft.com/en-us/azure/cloud-shell/persisting-shell-storage) wg instrukcji,
 3. lokalny klient MySQLa, np. [MySQL Workbench](https://www.mysql.com/products/workbench/)
 
-## Kroki
-
-*wszystkie kroki można uruchomić w CloudShell przy pomocy poniższego polecenia (przez użycie skryptu powłoki):*
+## Uruchomienie środowiska
 
 ```sh
 curl -s https://raw.githubusercontent.com/serafin-tech/lab-db-azure/main/skrypt.sh | bash
 ```
 
-### Logowanie + sunskrypcja 
-
-*krok pomijamy w przypadku użycia CloudShella*
+aby połączyć się z bazą danych potrzebny będzie również certyfikat SSL:
 
 ```sh
-az login --use-device-code
-az account set --subscription <id z konsoli portal.azure.com>
+curl -s -o cacert.pem https://dl.cacerts.digicert.com/DigiCertGlobalRootCA.crt.pem
 ```
 
-#### Sprawdzenie subskrypcji
+### Użytkownik i hasło
 
-```sh
-az account show
-```
+|---|---|
+| Użytkownik | `adminuser` |
+| Hasło | `Som3Passw0rd` |
 
-ważne pola do sprawdzenia:
+### Konfiguracja dostępu sieciowego
 
-+ "id" - identyfikator subskrypcji, czy pokrywa się z tym co widzimy w Azure Portalu
-+ "isDefault" - istotne, gdybyśmy mieli kilka subskrypcji w naszej instancji AZ CLI
-+ "name" - nazwa sbskrypcji, sprawdzmy jak `id`
-+ "state" - stan skonfiguracji konta, jeśli nie jest `Enabled` to błąd
-
-### Utworzenie ResourceGroup-y
-
-```sh
-export RESOURCE_GRP_NAME="merito-db-$(echo $RANDOM | sha1sum | cut -c 1-8)"
-# az account list-locations -o table
-export RESOURCE_LOCATION="polandcentral" # swedencentral
-
-echo "export RESOURCE_GRP_NAME=${RESOURCE_GRP_NAME}" | tee ~/config.sh
-echo "export RESOURCE_LOCATION=${RESOURCE_LOCATION}" | tee -a ~/config.sh
-
-az group create --name $RESOURCE_GRP_NAME --location $RESOURCE_LOCATION
-
-```
-
-### Utworzenie serwera bazy dancyh
-
-```sh
-export DB_SRV_NAME="db-srv-$(echo $RANDOM | sha1sum | cut -c 1-8)"
-export MY_PUBLIC_IP=$(curl -s ifconfig.me)
-
-echo "export DB_SRV_NAME=${DB_SRV_NAME}" | tee -a ~/config.sh
-
-az mysql flexible-server create \
-    --database-name lab-db \
-    --name $DB_SRV_NAME \
-    --location $RESOURCE_LOCATION \
-    --public-access $MY_PUBLIC_IP \
-    --resource-group $RESOURCE_GRP_NAME \
-    --sku-name Standard_B1ms \
-    --storage-auto-grow Disabled \
-    --version 8.0.21 \
-    --admin-user adminuser \
-    --admin-password Som3Passw0rd
-```
+Operacja wykonywana z [GUI](https://portal.azure.com/) i polegająca na otwarciu połączeń dla wybranego adresu publicznego dla danego serwera bazy danych działającego w chmurze.
+Realizowana w zakładce Settings/Networks serwera bazy danych.
 
 ### Connection string
 
@@ -81,25 +39,15 @@ parametry połączeń dla języków programowania:
 az mysql flexible-server show-connection-string --server-name $DB_SRV_NAME --admin-user=adminuser
 ```
 
-aby połączyć się z bazą danych potrzebny będzie również certyfikat SSL:
-
-```sh
-curl -s -o cacert.pem https://dl.cacerts.digicert.com/DigiCertGlobalRootCA.crt.pem
-```
-
 ### Utworzenie bazy danych do ćwiczeń
 
-poniższe polecenie przygotowuje bazę danych do ćwiczeń:
+poniższe polecenie przygotowuje/resetuje bazę danych do ćwiczeń:
 
 ```sh
 curl -s https://raw.githubusercontent.com/serafin-tech/lab-db-azure/main/lab_db_v3.sql | \
     mysql --host=${DB_SRV_NAME}.mysql.database.azure.com \
     --user=adminuser --password=Som3Passw0rd --ssl-ca=cacert.pem
 ```
-
-### Konfiguracja dostępu sieciowego
-
-Operacja wykoywana z [GUI](https://portal.azure.com/) i polegająca na otwarciu połączeń dla wybranego adresu publicznego dla danego serwera bazy danych działającego w chmurze. Realizowana w zakładce Settings/Networks serwera bazy danych.
 
 ### MyCLI, czyli interfejs do bazy danych
 
